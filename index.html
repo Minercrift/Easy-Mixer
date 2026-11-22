@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Table de mixage</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#0b7480">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mixage">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;600;700&display=swap">
+<style>
+:root{color-scheme:light;--bg:#e6ebee;--card:#f8fafb;--ink:#13181c;--mute:#5d6a73;--line:#ccd5db;--acc:#0b7480;--soft:#cdeaed;--xlr:#1f5fa8;--mono:#2a7d4f;--st:#7a3fb0;--cink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1316;--card:#182026;--ink:#e8eef2;--mute:#9aa9b3;--line:#2c3840;--acc:#3cc8d4;--soft:#12353a;--xlr:#5aa3ec;--mono:#4cc088;--st:#b48ae0;--cink:#0b1114}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0f1316;--card:#182026;--ink:#e8eef2;--mute:#9aa9b3;--line:#2c3840;--acc:#3cc8d4;--soft:#12353a;--xlr:#5aa3ec;--mono:#4cc088;--st:#b48ae0;--cink:#0b1114}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.35 "Barlow Semi Condensed",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{margin:0 auto;padding:16px 14px 44px}
+#p-conf,#p-aux{max-width:720px}
+h1{font-size:1.9rem;line-height:1.1;margin:6px 0 4px;font-weight:700}
+.sub{color:var(--mute);margin:0 0 14px}
+.tabs{display:flex;gap:4px;max-width:720px;overflow-x:auto;margin:0 0 14px;border-bottom:2px solid var(--line)}
+.tabs button{flex:1 0 auto;padding:11px 12px;white-space:nowrap;border:0;border-bottom:3px solid transparent;background:none;color:var(--mute);font:inherit;font-weight:600;cursor:pointer}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--acc)}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+h2{font-size:1.2rem;margin:0 0 6px;font-weight:700}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0}
+.row+.row{border-top:1px solid var(--line)}
+.lbl b{display:block;font-weight:600}.lbl small{color:var(--mute);font-size:.85rem}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:44px;height:44px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:1.5rem;cursor:pointer}
+.step output{min-width:2.4ch;text-align:center;font-weight:700;font-size:1.5rem;font-variant-numeric:tabular-nums}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.grp{padding:8px 0 2px;border-top:1px solid var(--line)}
+.grp small{display:block;color:var(--mute);margin-bottom:4px}
+.pill{display:inline-block;padding:3px 10px;margin:0 5px 5px 0;border-radius:6px;border:1px solid var(--line);background:var(--bg);font-weight:600;font-size:.92rem}
+.pill.m,.pill.a{background:var(--soft);border-color:var(--acc)}
+.none{color:var(--mute)}
+.split{display:flex;justify-content:space-between;font-weight:600;margin:6px 0 2px}
+#sl{width:100%;height:34px;accent-color:var(--acc);margin:0}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:var(--bg);color:var(--mute);padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--acc);color:var(--cink)}
+.sum{color:var(--mute);margin:6px 0 0}
+#list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.ch{border:1px solid var(--line);border-left:6px solid var(--xlr);border-radius:6px;padding:10px;background:var(--bg)}
+.ch.mono{border-left-color:var(--mono)}.ch.stereo{border-left-color:var(--st)}
+.top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.num{font-weight:700;color:var(--mute);min-width:1.8ch;text-align:center}
+.nm{flex:1;min-width:0;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font:inherit;font-weight:700;padding:8px 10px}
+.chip{display:inline-flex;align-items:center;border:0;border-radius:6px;padding:6px 14px;min-height:36px;font:inherit;font-weight:700;color:var(--cink);background:var(--xlr)}
+button.chip{cursor:pointer}.chip.mono{background:var(--mono)}.chip.stereo{background:var(--st)}
+.pick{display:grid;grid-template-columns:repeat(6,minmax(0,64px));gap:5px}
+.pick button{aspect-ratio:1;display:flex;padding:5px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--mute);cursor:pointer}
+.pick button[aria-pressed=true]{background:var(--soft);border-color:var(--acc);color:var(--acc)}
+.pick svg{width:100%;height:100%}
+.meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:8px;color:var(--mute);font-size:.92rem}
+.meta .pill{margin:0}
+details{border:1px solid var(--line);border-radius:8px;margin-top:10px;background:var(--bg)}
+summary{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:48px;padding:0 12px;font-weight:700;cursor:pointer}
+summary small{color:var(--mute);font-weight:400;font-size:.92rem}
+.tools{display:flex;gap:8px;padding:0 12px 8px}
+.tools button{padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;font-weight:600;cursor:pointer}
+.sends{padding:0 12px 6px}
+.send{display:flex;align-items:center;gap:10px;min-height:46px;border-top:1px solid var(--line);cursor:pointer}
+.send input{width:22px;height:22px;flex:none;accent-color:var(--acc)}
+.send svg{width:26px;height:26px;flex:none;color:var(--mute)}
+.rst{padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-weight:600;cursor:pointer}
+.mix{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;margin-top:8px}
+.strip{flex:0 0 132px;border:1px solid var(--line);border-top:4px solid var(--xlr);border-radius:8px;padding:8px 6px;background:var(--bg)}
+.strip.mono{border-top-color:var(--mono)}.strip.stereo{border-top-color:var(--st)}
+.sh{display:flex;gap:6px;align-items:center;margin-bottom:8px;font-weight:700}
+.sh .sn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bd{padding:6px 0;border-top:1px solid var(--line)}
+.bl{font-size:.74rem;color:var(--mute);text-align:center;margin-bottom:2px}
+.kk{display:flex;justify-content:center;gap:4px}
+.kn{width:56px;text-align:center;touch-action:none;cursor:ns-resize;user-select:none;-webkit-user-select:none;border-radius:8px;color:var(--mute)}
+.kn svg{width:56px;height:58px;display:block}
+.kn .v{display:block;font-size:.72rem;font-variant-numeric:tabular-nums;color:var(--ink)}
+.fdw{margin-top:8px;border-top:1px solid var(--line);padding-top:8px;text-align:center}
+.fd{position:relative;height:240px;touch-action:none;user-select:none;-webkit-user-select:none;cursor:ns-resize}
+.trk{position:absolute;top:15px;bottom:15px;left:0;right:0}
+.sc{position:absolute;inset:0;pointer-events:none}
+.slot{position:absolute;left:50%;top:0;bottom:0;width:6px;margin-left:-3px;border-radius:3px;background:var(--ink);opacity:.85}
+.cap{position:absolute;left:50%;width:38px;height:28px;margin-left:-19px;transform:translateY(50%);border-radius:3px;border:1px solid #000;background:linear-gradient(#5b6168,#2b2f33 48%,#14171a)}
+.cap::after{content:"";position:absolute;left:3px;right:3px;top:50%;height:2px;margin-top:-1px;background:#fff}
+.sc i{position:absolute;right:50%;margin-right:32px;transform:translateY(50%);font-style:normal;font-size:.64rem;line-height:1;color:var(--mute);font-variant-numeric:tabular-nums}
+.sc i::after{content:"";position:absolute;left:calc(100% + 4px);top:50%;width:9px;height:1px;background:currentColor}
+.dbv{font-weight:700;font-variant-numeric:tabular-nums;margin-top:4px}
+.act{display:flex;gap:6px}
+.kn:focus-visible,.fd:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+<h1>Table de mixage</h1>
+<p class="sub">Règle les entrées, les sorties, les instruments et les envois auxiliaires.</p>
+
+<nav class="tabs" role="tablist">
+<button role="tab" id="tb-conf" data-tab="conf">Configuration</button>
+<button role="tab" id="tb-voies" data-tab="voies">Voies</button>
+<button role="tab" id="tb-niv" data-tab="niv">Niveaux</button>
+<button role="tab" id="tb-aux" data-tab="aux">Auxiliaires</button>
+<button role="tab" id="tb-param" data-tab="param">Paramètres</button>
+</nav>
+
+<section id="p-conf" role="tabpanel">
+<h2>Entrées et sorties</h2>
+<div class="row"><div class="lbl"><b>Entrées</b><small>Voies de la table</small></div><div class="step"><button data-s="in:-1" aria-label="Une entrée de moins">−</button><output id="oIn"></output><button data-s="in:1" aria-label="Une entrée de plus">+</button></div></div>
+<div class="row"><div class="lbl"><b>Sorties XLR Main</b><small>Façade</small></div><div class="step"><button data-s="main:-1" aria-label="Une sortie Main de moins">−</button><output id="oMain"></output><button data-s="main:1" aria-label="Une sortie Main de plus">+</button></div></div>
+<div class="row"><div class="lbl"><b>Sorties auxiliaires</b><small>Retours</small></div><div class="step"><button data-s="aux:-1" aria-label="Une sortie auxiliaire de moins">−</button><output id="oAux"></output><button data-s="aux:1" aria-label="Une sortie auxiliaire de plus">+</button></div></div>
+<div class="grp"><small>XLR Main</small><div id="pM"></div></div>
+<div class="grp"><small>Auxiliaires</small><div id="pA"></div></div>
+<div class="grp"><button class="rst" id="reset">Tout réinitialiser</button></div>
+</section>
+
+<section id="p-voies" role="tabpanel">
+<h2>Voies et instruments</h2>
+<div class="split"><span id="lx"></span><span id="ll"></span></div>
+<input type="range" id="sl" min="0" max="8" value="6" aria-label="Nombre d’entrées XLR">
+<p class="sum">Les entrées XLR sont toujours les premières voies. Chacune peut aussi être réglée en mono ou en stéréo.</p>
+<div class="row"><div class="lbl"><b>Entrées hors XLR</b><small>Type appliqué à toutes</small></div><div class="seg"><button data-m="mono">Mono</button><button data-m="stereo">Stéréo</button></div></div>
+<p class="sum" id="sum"></p>
+<div id="list"></div>
+</section>
+
+<section id="p-niv" role="tabpanel">
+<h2>Niveaux</h2>
+<p class="sum">Glisse vers le haut ou le bas sur un bouton ou un fader. Touche deux fois pour revenir à zéro.</p>
+<div id="mix" class="mix"></div>
+</section>
+
+<section id="p-aux" role="tabpanel">
+<h2>Envois auxiliaires</h2>
+<p class="sum">Coche les voies envoyées sur chaque sortie auxiliaire.</p>
+<div id="auxl"></div>
+</section>
+<section id="p-param" role="tabpanel">
+<h2>Égaliseur</h2>
+<p class="sum">Chaque bande règle le gain (±15 dB) et la fréquence.</p>
+<div class="row"><div class="lbl"><b>Nombre de bandes</b><small>De 2 à 4</small></div><div class="seg"><button data-bands="2">2</button><button data-bands="3">3</button><button data-bands="4">4</button></div></div>
+<div class="grp" id="bl"></div>
+<h2 style="margin-top:18px">Sauvegardes</h2>
+<p class="sum">Enregistre tous les réglages sous un nom. Tu peux en créer autant que tu veux.</p>
+<div class="row"><input class="nm" id="svn" placeholder="Nom de la sauvegarde" maxlength="30" aria-label="Nom de la sauvegarde"><button class="rst" data-sv="1">Enregistrer</button></div>
+<div id="svl"></div>
+</section>
+</main>
+
+<script>
+const S='fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"';
+const INST={
+batterie:{n:"Batterie",p:'<circle cx="32" cy="42" r="14"/><circle cx="32" cy="42" r="4"/><ellipse cx="24" cy="24" rx="7" ry="3"/><ellipse cx="40" cy="24" rx="7" ry="3"/><path d="M17 24v5a7 3 0 0 0 14 0v-5M33 24v5a7 3 0 0 0 14 0v-5M10 12v44M54 12v44"/><ellipse cx="10" cy="12" rx="8" ry="2"/><ellipse cx="54" cy="12" rx="8" ry="2"/>'},
+basse:{n:"Basse",p:'<rect x="10" y="6" width="44" height="52" rx="5"/><circle cx="32" cy="38" r="13"/><circle cx="32" cy="38" r="4"/><circle cx="18" cy="16" r="2"/><circle cx="27" cy="16" r="2"/><circle cx="36" cy="16" r="2"/><circle cx="45" cy="16" r="2"/>'},
+voix:{n:"Voix",p:'<rect x="23" y="6" width="18" height="28" rx="9"/><path d="M23 18h18M23 24h18M16 28a16 16 0 0 0 32 0M32 44v10M23 56h18"/>'},
+guitare:{n:"Guitare",p:'<g transform="rotate(40 32 32)"><path d="M30 28V9h4v19M29 3h6v6h-6z"/><path d="M32 27c-6 0-9 4-9 8 0 3 2 4 2 6-2 2-4 4-4 8 0 5 5 8 11 8s11-3 11-8c0-4-2-6-4-8 0-2 2-3 2-6 0-4-3-8-9-8z"/><circle cx="32" cy="44" r="3.5"/></g>'},
+piano:{n:"Piano",p:'<path d="M8 46V12a4 4 0 0 1 4-4h14c18 0 30 12 30 38z"/><rect x="8" y="46" width="48" height="12" rx="2"/><path d="M16 46v12M24 46v12M32 46v12M40 46v12M48 46v12"/>'},
+autre:{n:"Autre",p:'<circle cx="32" cy="32" r="25"/><path d="M13 32q6-11 12 0t12 0t12 0"/>'}
+};
+const ic=k=>`<svg viewBox="0 0 64 64" ${S} aria-hidden="true">${INST[k].p}</svg>`;
+const TL={xlr:"XLR",mono:"Mono",stereo:"Stéréo"};
+const esc=s=>s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const st={in:8,main:2,aux:4,xlr:6,bands:3},LIM={in:[1,32],main:[0,4],aux:[0,16]};
+let line="mono",tab="conf";const open=new Set([0]);
+let ch=[["autre","xlr"],["autre","xlr"],["autre","xlr"],["autre","xlr"],["autre","xlr"],["autre","xlr"],["autre","stereo"],["autre","mono"]].map(([i,t])=>({name:"",i,t,aux:[]}));
+const $=s=>document.querySelector(s);
+const KEY="table-de-mixage-v1";
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({st,line,ch}))}catch(e){}};
+const BS={2:["a","g"],3:["a","m","g"],4:["a","ma","mg","g"]};
+const BN={a:"Aigu",ma:"Médium aigu",m:"Médium",mg:"Médium grave",g:"Grave"};
+const BC={a:"#c23b3b",ma:"#2f9e63",m:"#2f9e63",mg:"#3a6fd0",g:"#8a5a35"};
+const R={a:[1500,16000],ma:[1000,9000],m:[250,5000],mg:[150,2500],g:[30,450]};
+const SK="table-de-mixage-v1-saves";
+function apply(s){Object.assign(st,s.st);line=s.line||"mono";
+  ch=s.ch.map(c=>({name:c.name||"",i:INST[c.i]?c.i:"autre",t:c.t||"mono",aux:Array.isArray(c.aux)?c.aux:[],lv:c.lv,eq:c.eq||{}}));
+  st.in=ch.length;st.xlr=Math.min(st.xlr,st.in);if(!BS[st.bands])st.bands=3}
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.st&&Array.isArray(s.ch)&&s.ch.length)apply(s)}catch(e){}
+
+/* Niveaux : faders et égaliseurs */
+const FP=[[0,-70],[.25,-30],[.5,-10],[.75,0],[1,10]];
+const FM=[[10,"10"],[5,"5"],[0,"0"],[-5,"5"],[-10,"10"],[-20,"20"],[-30,"30"],[-50,"50"],[-70,"∞"]];
+const dbp=d=>{for(let i=1;i<5;i++){const[p0,d0]=FP[i-1],[p1,d1]=FP[i];if(d<=d1)return p0+(Math.max(d,d0)-d0)/(d1-d0)*(p1-p0)}return 1};
+const pdb=p=>{for(let i=1;i<5;i++){const[p0,d0]=FP[i-1],[p1,d1]=FP[i];if(p<=p1)return d0+(p-p0)/(p1-p0)*(d1-d0)}return 10};
+const dbt=d=>d<=-69.9?"−∞":(d>0?"+":"")+d.toFixed(1);
+const gTx=g=>(g>0?"+":"")+g.toFixed(1);
+const fmt=f=>f<1000?String(Math.round(f)):(f/1000).toFixed(f<10000?2:1).replace(/\.?0+$/,"")+"k";
+const fHz=(b,p)=>R[b][0]*Math.pow(R[b][1]/R[b][0],p);
+const E=(c,b)=>{c.eq=c.eq||{};return c.eq[b]=c.eq[b]||{g:0,f:.5}};
+const kd=(c,b,t)=>{const e=E(c,b);return t=="g"?{u:(e.g+15)/30,a:e.g*9,x:gTx(e.g)}:{u:e.f,a:-135+e.f*270,x:fmt(fHz(b,e.f))}};
+const pt=(a,r)=>{const t=a*Math.PI/180;return[(30+r*Math.sin(t)).toFixed(1),(30-r*Math.cos(t)).toFixed(1)]};
+const tk=(a,r1,r2)=>"M"+pt(a,r1).join(" ")+"L"+pt(a,r2).join(" ");
+const TG=(()=>{let m="",M="";for(let i=-15;i<=15;i++){const a=i*9;if(i%5)m+=tk(a,25.5,28);else M+=tk(a,23.5,28.5)}return[m,M]})();
+const TF=(()=>{let m="",M="";for(let i=0;i<=20;i++){const a=-135+i*13.5;if(i%5)m+=tk(a,25.5,28);else M+=tk(a,23.5,28.5)}return[m,M]})();
+const kn=(j,b,t)=>{const k=kd(ch[j],b,t),g=t=="g",[tm,tM]=g?TG:TF,cap=g?BC[b]:"#2b3136";
+  const l=g?["−15","+15"]:[fmt(R[b][0]),fmt(R[b][1])];
+  return `<div class="kn" data-kn="${j}:${b}:${t}" tabindex="0" role="slider" aria-label="${BN[b]} ${g?"gain":"fréquence"}"><svg viewBox="0 0 60 62" fill="none" stroke="currentColor"><path d="${tm}" stroke-width=".9" opacity=".7"/><path d="${tM}" stroke-width="1.8"/><g fill="currentColor" stroke="none" font-size="8"><text x="6" y="60">${l[0]}</text><text x="54" y="60" text-anchor="end">${l[1]}</text></g><circle cx="30" cy="30" r="17" fill="${cap}" stroke="#000" stroke-opacity=".55" stroke-width="1.5"/><circle cx="30" cy="30" r="12.5" stroke="#fff" stroke-opacity=".2"/><g class="pt" transform="rotate(${k.a} 30 30)"><rect x="28.6" y="15" width="2.8" height="11" rx="1.2" fill="#fff" stroke="none"/></g></svg><span class="v">${k.x}</span></div>`};
+function drawNiv(){if(tab!="niv")return;const B=BS[st.bands];
+  $("#mix").innerHTML=ch.map((c,j)=>{const t=typ(c,j),lv=c.lv??0;
+    return `<div class="strip ${t}"><div class="sh"><span class="num">${j+1}</span><span class="sn">${esc(nm(c,j))}</span></div>${B.map(b=>`<div class="bd"><div class="bl">${BN[b]}</div><div class="kk">${kn(j,b,"g")}${kn(j,b,"f")}</div></div>`).join("")}<div class="fdw"><div class="fd" data-fd="${j}" tabindex="0" role="slider" aria-label="Niveau de ${esc(nm(c,j))}"><div class="trk"><div class="sc">${FM.map(([d,l])=>`<i style="bottom:${dbp(d)*100}%">${l}</i>`).join("")}</div><b class="slot"></b><b class="cap" style="bottom:${dbp(lv)*100}%"></b></div></div><div class="dbv">${dbt(lv)}</div></div></div>`}).join("")}
+function paint(el){const d=el.dataset;
+  if(d.fd!==undefined){const lv=ch[+d.fd].lv??0;el.querySelector(".cap").style.bottom=dbp(lv)*100+"%";el.parentNode.querySelector(".dbv").textContent=dbt(lv)}
+  else{const[j,b,t]=d.kn.split(":"),k=kd(ch[+j],b,t);el.querySelector(".pt").setAttribute("transform","rotate("+k.a+" 30 30)");el.querySelector(".v").textContent=k.x}}
+function O(el){const d=el.dataset;
+  if(d.fd!==undefined){const c=ch[+d.fd];return{u:dbp(c.lv??0),def:dbp(0),px:el.querySelector(".trk").clientHeight||200,set:u=>{c.lv=Math.round(pdb(u)*10)/10}}}
+  const[j,b,t]=d.kn.split(":"),e=E(ch[+j],b);
+  return{u:kd(ch[+j],b,t).u,def:.5,px:170,set:u=>{if(t=="g")e.g=Math.round((u*30-15)*2)/2;else e.f=u}}}
+let gs=null,lt=0,ll=null;
+document.addEventListener("pointerdown",e=>{const el=e.target.closest("[data-kn],[data-fd]");if(!el)return;e.preventDefault();
+  const n=Date.now(),o=O(el),dbl=ll===el&&n-lt<320;lt=n;ll=el;
+  if(dbl){o.set(o.def);paint(el);save();return}
+  gs={el,o,y:e.clientY};try{el.setPointerCapture(e.pointerId)}catch(x){}});
+document.addEventListener("pointermove",e=>{if(!gs)return;const{o,el,y}=gs;o.set(Math.min(1,Math.max(0,o.u+(y-e.clientY)/o.px)));paint(el)});
+const endG=()=>{if(gs){gs=null;save()}};
+document.addEventListener("pointerup",endG);document.addEventListener("pointercancel",endG);
+document.addEventListener("keydown",e=>{const el=e.target.closest&&e.target.closest("[data-kn],[data-fd]");
+  const s={ArrowUp:1,ArrowRight:1,ArrowDown:-1,ArrowLeft:-1}[e.key];if(!el||!s)return;e.preventDefault();
+  const o=O(el);o.set(Math.min(1,Math.max(0,o.u+s*.02)));paint(el);save()});
+
+/* Paramètres : égaliseur et sauvegardes */
+let arm=-1;
+const sv=()=>{try{return JSON.parse(localStorage.getItem(SK)||"[]")}catch(e){return[]}};
+const sw=a=>{try{localStorage.setItem(SK,JSON.stringify(a))}catch(e){}};
+function drawParam(){if(tab!="param")return;
+  document.querySelectorAll("[data-bands]").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.bands===st.bands));
+  $("#bl").innerHTML=BS[st.bands].map(b=>`<span class="pill">${BN[b]} : ${fmt(R[b][0])} à ${fmt(R[b][1])} Hz</span>`).join("");
+  const a=sv();
+  $("#svl").innerHTML=a.length?a.map((s,i)=>`<div class="row"><div class="lbl"><b>${esc(s.n)}</b><small>${new Date(s.d).toLocaleDateString("fr-FR")}</small></div><div class="act"><button class="rst" data-ld="${i}">Charger</button><button class="rst" data-dl="${i}">${arm===i?"Confirmer":"Supprimer"}</button></div></div>`).join(""):'<p class="none">Aucune sauvegarde pour l’instant.</p>'}
+const nm=(c,j)=>c.name.trim()||"Voie "+(j+1);
+const typ=(c,j)=>j>=st.xlr&&c.t=="xlr"?"mono":c.t;
+const cnt=t=>ch.filter((c,j)=>typ(c,j)===t).length;
+const pills=(n,f,cls)=>n?Array.from({length:n},(_,i)=>`<span class="pill ${cls}">${f(i)}</span>`).join(""):'<span class="none">Aucune</span>';
+
+function drawConf(){
+  $("#oIn").textContent=st.in;$("#oMain").textContent=st.main;$("#oAux").textContent=st.aux;
+  $("#pM").innerHTML=pills(st.main,i=>st.main==2?(i?"Main R":"Main L"):"Main "+(i+1),"m");
+  $("#pA").innerHTML=pills(st.aux,i=>"Aux "+(i+1),"");
+}
+function drawVoies(){
+  const sl=$("#sl");sl.max=st.in;sl.value=st.xlr;
+  $("#lx").textContent=st.xlr+(st.xlr>1?" entrées XLR":" entrée XLR");$("#ll").textContent=(st.in-st.xlr)+" mono ou stéréo";
+  document.querySelectorAll("[data-m]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===line));
+  $("#sum").textContent="XLR "+cnt("xlr")+", mono "+cnt("mono")+", stéréo "+cnt("stereo");
+  $("#list").innerHTML=ch.map((c,j)=>{
+    const t=typ(c,j),sends=[...c.aux].filter(k=>k<st.aux).sort((a,b)=>a-b);
+    const lb=TL[t];const chip=`<button class="chip ${t}" data-chip="${j}" aria-label="Type de la voie ${j+1} : ${lb}. Appuyer pour changer.">${lb}</button>`;
+    return `<div class="ch ${t}"><div class="top"><span class="num">${j+1}</span><input class="nm" data-nm="${j}" value="${esc(c.name)}" placeholder="Voie ${j+1}" maxlength="24" aria-label="Nom de la voie ${j+1}">${chip}</div>
+<div class="pick">${Object.keys(INST).map(k=>`<button data-pick="${j}:${k}" aria-pressed="${c.i===k}" aria-label="${INST[k].n}">${ic(k)}</button>`).join("")}</div>
+<div class="meta"><span class="pill">${INST[c.i].n}</span>${sends.length?sends.map(k=>`<span class="pill a">Aux ${k+1}</span>`).join(""):""}</div></div>`}).join("");
+}
+function drawAux(){
+  $("#auxl").innerHTML=st.aux?Array.from({length:st.aux},(_,k)=>{
+    const n=ch.filter(c=>c.aux.includes(k)).length;
+    return `<details data-aux="${k}" ${open.has(k)?"open":""}><summary>Aux ${k+1}<small data-cnt="${k}">${n} sur ${ch.length}</small></summary>
+<div class="tools"><button data-all="${k}:1">Tout cocher</button><button data-all="${k}:0">Tout décocher</button></div>
+<div class="sends">${ch.map((c,j)=>`<label class="send"><input type="checkbox" data-send="${k}:${j}" ${c.aux.includes(k)?"checked":""}>${ic(c.i)}<span>${esc(nm(c,j))}</span></label>`).join("")}</div></details>`}).join(""):'<p class="none">Aucune sortie auxiliaire. Ajoutes-en une dans l’onglet Configuration.</p>';
+}
+function draw(){
+  ["conf","voies","niv","aux","param"].forEach(n=>{$("#p-"+n).hidden=n!=tab;$("#tb-"+n).setAttribute("aria-selected",n==tab)});
+  drawConf();drawVoies();drawNiv();drawAux();drawParam();save();
+}
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;const d=b.dataset;
+  if(d.tab){tab=d.tab;arm=-1}
+  else if(d.s){const[k,v]=d.s.split(":");st[k]=Math.min(LIM[k][1],Math.max(LIM[k][0],st[k]+ +v));
+    while(ch.length<st.in)ch.push({name:"",i:"autre",t:line,aux:[]});
+    ch.length=st.in;st.xlr=Math.min(st.xlr,st.in);
+    ch.forEach(c=>c.aux=c.aux.filter(x=>x<st.aux))}
+  else if(d.m){line=d.m;ch.forEach((c,j)=>{if(j>=st.xlr)c.t=line})}
+  else if(d.chip){const j=+d.chip,c=ch[j];c.t=j<st.xlr?{xlr:"mono",mono:"stereo",stereo:"xlr"}[c.t]:(c.t=="mono"?"stereo":"mono")}
+  else if(d.pick){const[j,k]=d.pick.split(":");ch[+j].i=k}
+  else if(d.all){const[k,v]=d.all.split(":").map(Number);ch.forEach(c=>{c.aux=c.aux.filter(x=>x!=k);if(v)c.aux.push(k)})}
+  else if(d.bands)st.bands=+d.bands;
+  else if(d.sv!==undefined){const a=sv();a.push({n:$("#svn").value.trim()||"Sauvegarde "+(a.length+1),d:Date.now(),s:{st,line,ch}});sw(a);$("#svn").value=""}
+  else if(d.ld!==undefined){const x=sv()[+d.ld];if(x&&x.s&&Array.isArray(x.s.ch)&&x.s.ch.length)apply(x.s)}
+  else if(d.dl!==undefined){const i=+d.dl,a=sv();if(arm===i){a.splice(i,1);sw(a);arm=-1}else arm=i}
+  else return;
+  draw();
+});
+$("#sl").addEventListener("input",e=>{const o=st.xlr,k=+e.target.value;st.xlr=k;ch.forEach((c,j)=>{if(j>=o&&j<k)c.t="xlr";else if(j>=k&&c.t=="xlr")c.t=line});draw()});
+document.addEventListener("input",e=>{const t=e.target;if(t.dataset.nm!==undefined){ch[+t.dataset.nm].name=t.value;save()}});
+document.addEventListener("change",e=>{
+  const t=e.target;if(t.dataset.send===undefined)return;
+  const[k,j]=t.dataset.send.split(":").map(Number),c=ch[j];
+  c.aux=c.aux.filter(x=>x!=k);if(t.checked)c.aux.push(k);
+  $('[data-cnt="'+k+'"]').textContent=ch.filter(c=>c.aux.includes(k)).length+" sur "+ch.length;
+  drawVoies();save();
+});
+document.addEventListener("toggle",e=>{const t=e.target;if(t.matches&&t.matches("details[data-aux]")){const k=+t.dataset.aux;t.open?open.add(k):open.delete(k)}},true);
+$("#reset").addEventListener("click",()=>{if(confirm("Effacer toute la configuration ?")){try{localStorage.removeItem(KEY)}catch(e){}location.reload()}});
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+draw();
+</script>
+</body>
+</html>
